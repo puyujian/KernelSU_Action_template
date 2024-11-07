@@ -1,50 +1,192 @@
-KERNEL_SOURCE=
-KERNEL_SOURCE_BRANCH=
-KERNEL_CONFIG=
-KERNEL_IMAGE_NAME=
+# 内核源码仓库地址
+# 例如: https://github.com/magojohnji/msm-4.14.git
+KERNEL_SOURCE=https://github.com/puyujian/android_gki_kernel_5.15_common.git
+
+# 内核源码分支名称
+# 例如: TDA, base, su, 13, R
+KERNEL_SOURCE_BRANCH=main
+
+# 内核配置文件名
+# 例如: vendor/wayne_defconfig, vendor/violet-perf_defconfig, munch_defconfig
+# 可在内核源码的 arch/arm64/configs(/vendor) 中寻找
+KERNEL_CONFIG=vendor/defconfig
+
+# CPU 架构
+# 一般为 arm64
 ARCH=arm64
 
-ENABLE_CLANG=true
-USE_AOSP_CLANG=true
-AOSP_CLANG_SYSTEM=linux-x86
-AOSP_CLANG_BRANCH=master
-AOSP_CLANG_VERSION=r450784e
-USE_CUSTOM_CLANG=false
-CUSTOM_CLANG_SOURCE=https://github.com/magojohnji/ZyCromerZ-Clang.git
-CUSTOM_CLANG_BRANCH=main
+# 需要刷写的内核二进制文件名
+# 例如: Image.gz-dtb, Image, Image.gz
+KERNEL_IMAGE_NAME=Image.gz-dtb
 
+# 是否启用 Clang 编译
+# 例如: true, false
+ENABLE_CLANG=true
+
+# 是否使用 AOSP 的 Clang
+# 例如: true, false
+USE_AOSP_CLANG=true
+
+# Clang 所适用的系统
+# 例如: darwin-universal, darwin-x86, linux-x86, windows-x86, windows-x86_32
+# 默认为 `linux-x86`，需要自定义请去 [AOSP Clang](https://android.googlesource.com/platform/prebuilts/clang/host/) 查看
+AOSP_CLANG_SYSTEM=linux-x86
+
+# AOSP Clang 分支
+# 例如: main, master, master-kernel-build-2021, master-kernel-build-2022
+# 请根据自己的需求在 https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 中寻找
+AOSP_CLANG_BRANCH=master
+
+# AOSP Clang 版本
+# 例如: r416183b, r450784d, r450784e, r458507
+# 如果无法下载请设为 r450784e
+AOSP_CLANG_VERSION=r450784e
+
+# 是否启用 GCC 交叉编译
+# 例如: true, false
 ENABLE_GCC=true
+
+# 是否下载 Google 官方的 AOSP GCC，启用 GCC 64 交叉编译
+# 例如: true, false
+# 如果 `Enable GCC` 设为 false，则此项无意义
 ENABLE_AOSP_GCC_ARM64=true
+
+# 是否下载 Google 官方的 AOSP GCC，启用 GCC 32 交叉编译
+# 例如: true, false
+# 如果 `Enable GCC` 设为 false，则此项无意义
 ENABLE_AOSP_GCC_ARM32=true
+
+# 用于编译内核的系统类型
+# 例如: darwin-x86, linux-x86
+# 如果使用 macOS 编译，则填写 darwin-x86
 AOSP_GCC_SYSTEM=linux-x86
+
+# AOSP GCC ARM64 版本号
+# 例如: aarch64-linux-android-4.9
 AOSP_GCC_ARM64_VERSION=aarch64-linux-android-4.9
+
+# AOSP GCC ARM32 版本
+# 例如: arm-linux-androideabi-4.9
 AOSP_GCC_ARM32_VERSION=arm-linux-androideabi-4.9
+
+# AOSP GCC 所对应的 Android 的版本
+# 例如: 12.1.0, 10.0.0
 AOSP_GCC_ANDROID_VERSION=12.1.0
+
+# AOSP GCC 所对应的发布版本号
+# 例如: r27
+# 以上 AOSP Gcc 如需自定义请去 [AOSP Gcc](https://android.googlesource.com/platform/prebuilts/gcc/) 自行寻找可用分支、版本
 AOSP_GCC_RELEASE=r27
+
+# 是否使用自定义的 Gcc 64
+# 例如: true, false
+# 如果 `Enable GCC` 设为 false，则此项无意义
 USE_CUSTOM_GCC_64=false
+
+# 自定义 Gcc 64 的源代码地址
+# 例如: https://github.com/yourname/yourcustomgcc64.git
+# 支持 git 仓库或者 zip 压缩包、tar.gz 压缩包的直链
+# 如果是 git 仓库，请填写包含`.git`的链接
 CUSTOM_GCC_64_SOURCE=
+
+# 自定义 Gcc 64 的分支
+# 例如: main
 CUSTOM_GCC_64_BRANCH=
+
+# 自定义 Gcc 64 的执行文件名称
+# 例如: aarch64-linux-android-
 CUSTOM_GCC_64_BIN=aarch64-linux-android-
+
+# 是否使用自定义的 Gcc 32
+# 例如: true, false
+# 如果 `Enable GCC` 设为 false，则此项无意义
 USE_CUSTOM_GCC_32=false
+
+# 自定义 Gcc 32 的源代码地址
+# 例如: https://github.com/yourname/yourcustomgcc32.git
+# 支持 git 仓库或者 zip 压缩包、tar.gz 压缩包的直链
+# 如果是 git 仓库，请填写包含`.git`的链接
 CUSTOM_GCC_32_SOURCE=
+
+# 自定义 Gcc 32 的分支
+# 例如: main
 CUSTOM_GCC_32_BRANCH=
+
+# 自定义 Gcc 32 的执行文件名称
+# 例如: arm-linux-androideabi-
 CUSTOM_GCC_32_BIN=arm-linux-androideabi-
 
+# 是否启用 KernelSU
+# 例如: true, false
 ENABLE_KERNELSU=true
-KERNELSU_INSTALLER=
+
+# KernelSU 的安装脚本链接
+# 例如: https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh
+# tiann 原版：https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh
+# MlgmXyysd 修改版：https://raw.githubusercontent.com/MlgmXyysd/KernelSU_Debug/master/kernel/setup.sh
+KERNELSU_INSTALLER=https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh
+
+# KernelSU 的分支或 tag
+# 例如: main, v0.5.2
+# main 分支(开发版): `KERNELSU_TAG=main`
+# 最新 TAG(稳定版): `KERNELSU_TAG=` 
+# 指定 TAG: `KERNELSU_TAG=v0.5.2`
 KERNELSU_TAG=main
+
+# KernelSU 管理器签名的 size 值和 hash 值
+# 例如: KSU_EXPECTED_SIZE=0x033b, KSU_EXPECTED_HASH=0xb0b91415
+# 如果不需要自定义管理器则请留空或填入官方默认值
+# 可键入 `ksud debug get-sign <apk_path>` 获取 apk 签名的 size 值和 hash 值
 KSU_EXPECTED_SIZE=
 KSU_EXPECTED_HASH=
+
+# 是否编译含 KernelSU 的 boot.img
+# 例如: true, false
+# 需要你提供 `KernelSU Source boot image`
 BUILD_KERNELSU_BOOT_IMG=true
+
+# KernelSU 源 boot 镜像地址
+# 例如: https://raw.githubusercontent.com/abc/def/main/boot/boot.img
+# 故名思义，提供一个源系统可以正常开机的 boot 镜像，需要直链
+# 最好是同一套内核源码以及与你当前系统同一套设备树从 aosp 构建出来的
+# ramdisk 里面包含分区表以及 init，没有的话构建出来的镜像会无法正常引导
 KERNELSU_SOURCE_BOOT_IMAGE=
 
+# 是否禁用 LTO
+# 例如: true, false
+# LTO 用于优化内核，但有些时候会导致错误
 DISABLE-LTO=false
-DISABLE_CC_WERROR=false
-ADD_KPROBES_CONFIG=true
-ADD_OVERLAYFS_CONFIG=true
-ENABLE_CCACHE=true
-NEED_DTBO=false
-BUILDER_HOST=Github-Action
 
+# 是否禁用 CC_WERROR
+# 例如: true, false
+# 用于修复某些不支持或关闭了 Kprobes 的内核，修复 KernelSU 未检测到开启 Kprobes 的变量抛出警告导致错误
+DISABLE_CC_WERROR=false
+
+# 是否自动在 defconfig 注入参数，启用 Kprobes 支持
+# 例如: true, false
+ADD_KPROBES_CONFIG=true
+
+# 是否自动在 defconfig 注入参数，为 KernelSU 模块和 system 分区读写提供支持
+# 例如: true, false
+ADD_OVERLAYFS_CONFIG=true
+
+# 是否启用缓存，让第二次编译内核更快，最少可以减少 2/5 的时间
+# 例如: true, false
+ENABLE_CCACHE=true
+
+# 是否上传 DTBO
+# 例如: true, false
+# 部分设备需要
+NEED_DTBO=false
+
+# 编译工具链配置
+# 例如: CLANG_TRIPLE=aarch64-linux-gnu-
+# 有的内核需要加入一些其它编译命令，才能正常编译，一般不需要其它的命令，请自行搜索自己内核的资料
+# 请在命令与命令之间用空格隔开
 TC_CUSTOM_CMDS:CLANG_TRIPLE=aarch64-linux-gnu-
+
+# 其它编译命令
+# 例如: LLVM=1 LLVM_IAS=1
+# 有的内核需要加入一些其它编译命令，才能正常编译，一般不需要其它的命令，请自行搜索自己内核的资料
+# 请在命令与命令之间用空格隔开
 EXTRA_CMDS:LD=ld.lld
